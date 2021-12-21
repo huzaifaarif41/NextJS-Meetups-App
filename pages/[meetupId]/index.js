@@ -1,22 +1,25 @@
 import MeetupDetail from '../../components/meetups/MeetupDetail';
 import { MongoClient, ObjectId } from 'mongodb';
 import { Fragment } from 'react';
-import Head from 'next/head'
+import Head from 'next/head';
 
 function MeetupDetails(props) {
   return (
     <Fragment>
-    <Head>   
+      <Head>
         <title>{props.meetupData.title}</title>
-        <meta name='description' content={props.meetupData.description} /> 
+        <meta name='description' content={props.meetupData.description} />
       </Head>
-    <MeetupDetail
-      image={props.meetupData.image}
-      title={props.meetupData.title}
-      address={props.meetupData.address}
-      description={props.meetupData.description}
-    /> //props.meetupData because we have that meetupData prop. So first we can drill into meetupData and then access to image,title,address and description
-  </Fragment>
+      <MeetupDetail
+        image={props.meetupData.image}
+        title={props.meetupData.title}
+        address={props.meetupData.address}
+        description={props.meetupData.description}
+      />{' '}
+      //props.meetupData because we have that meetupData prop. So first we can
+      drill into meetupData and then access to image,title,address and
+      description
+    </Fragment>
   );
 }
 
@@ -32,7 +35,7 @@ export async function getStaticPaths() {
   client.close();
 
   return {
-    fallback: false, //fallback key tells NextJS whether your paths array contains all supported parameter values or just some of them. If we set fallback set to false, you say that your paths contains all supported meetupId values. That means if user enters anything that not supported here for example meetupId:m3 , so it shows an error of 404 . If we set a fallback to true, NextJs try to generate a page for this meetupId(m3) dynamically on the server for incoming request.It allows to pre-generate some of your pages for specific meetupId values and then pre-generate the missing ones dynamically when requests for them are coming in. Here, we initialized to false, because to indicate that I defined all supported paths here.
+    fallback: 'blocking', //fallback key tells NextJS whether your paths array contains all supported parameter values or just some of them. If we set fallback set to false, you say that your paths contains all supported meetupId values. That means if user enters anything that not supported here for example meetupId:m3 , so it shows an error of 404 . If we set a fallback to true, NextJs try to generate a page for this meetupId(m3) dynamically on the server for incoming request.It allows to pre-generate some of your pages for specific meetupId values and then pre-generate the missing ones dynamically when requests for them are coming in. Here, we initialized to false, because to indicate that I defined all supported paths here. blocking is to ensure that the page which we get to access, is to wait and pre-generated and when data is pre-generated so it can show on the page, if it is set to true, it will immediately sent an empty page and then it automatically generates the data when it fetched it, so it not an user experience which we can give.
     paths: meetups.map((meetup) => ({
       params: { meetupId: meetup._id.toString() },
     })), //Here we map all the meetups to access an every meetup item which is a document with an Id into an object because paths should an array of objects
