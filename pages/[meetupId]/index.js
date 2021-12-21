@@ -4,6 +4,8 @@ import { Fragment } from 'react';
 import Head from 'next/head';
 
 function MeetupDetails(props) {
+  //props.meetupData because we have that meetupData prop. So first we can drill into meetupData and then access to image,title,address and
+  description
   return (
     <Fragment>
       <Head>
@@ -16,9 +18,7 @@ function MeetupDetails(props) {
         address={props.meetupData.address}
         description={props.meetupData.description}
       />{' '}
-      //props.meetupData because we have that meetupData prop. So first we can
-      drill into meetupData and then access to image,title,address and
-      description
+      
     </Fragment>
   );
 }
